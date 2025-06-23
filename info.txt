@@ -1,6 +1,13 @@
+laravel Blog:
+
 1. Create laravel app
 2. setup desired schemas in migrations: php artisan make:model [name]
 3. setup mysql(xampp)
 4. Create new database in phpMyAdmin
 5. copy database name into .env file and set database to mysql. Also do this in config/database.php
 6. php artisan migrate
+7. Complete all the created models
+8. Create sidebar routes and their availability based on auth
+9. Add hrefs to sidebar routes and work on web.php, and controllers to access the frontend when clicked
+10. Build the frontend, tables, forms, submissions etc
+11. Test front and back

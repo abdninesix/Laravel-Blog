@@ -3,17 +3,9 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { BookOpen, Folder, LayoutGrid, Newspaper } from 'lucide-react';
 import AppLogo from './app-logo';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-];
 
 const footerNavItems: NavItem[] = [
     {
@@ -29,6 +21,29 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+
+    const { auth } = usePage().props
+    const user = auth.user as { id: number; name: string; role: 'admin' | 'user' } | null
+
+    const mainNavItems: NavItem[] = user?.role === 'admin' ? [
+        {
+            title: 'Blogs',
+            href: '/admin/posts',
+            icon: Newspaper,
+        },
+        {
+            title: 'Categories',
+            href: '/admin/categories',
+            icon: LayoutGrid,
+        },
+    ] : user?.role === 'user' ? [
+        {
+            title: 'Blogs',
+            href: '/posts',
+            icon: LayoutGrid,
+        },
+    ] : [];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
