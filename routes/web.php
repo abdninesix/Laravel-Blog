@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('posts', PostController::class)->except(['show']);
 });
 
 require __DIR__ . '/settings.php';

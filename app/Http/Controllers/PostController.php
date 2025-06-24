@@ -18,7 +18,7 @@ class PostController extends Controller
     {
         $posts = Post::with(['category', 'comments.user'])->withCount('comments')->latest()->paginate(10);
         $categories = Category::all();
-        return Inertia::render('admin/categories', ['categories' => $categories, 'posts' => $posts]);
+        return Inertia::render('admin/posts', ['categories' => $categories, 'posts' => $posts]);
     }
 
     /**
@@ -37,15 +37,18 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'category_id' => 'required|exists:category,id',
+            'category_id' => 'required|exists:categories,id',
             'published_at' => 'nullable|date',
         ]);
+
         if ($request->filled('published_at')) {
             $validated['published_at'] = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
         }
+
         $validated['slug'] = Str::slug($request->title);
+        
         Post::create($validated);
-        return redirect()->route('admin.posts.index')->with('success', 'Category added');
+        return redirect()->route('admin.posts.index')->with('success', 'Post added');
     }
 
     /**
@@ -69,12 +72,22 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = Category::findOrFail($id);
+        $post = Post::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'published_at' => 'nullable|date',
         ]);
-        $category->update($validated);
-        return redirect()->route('admin.categories.index')->with('success', 'Category updated');
+
+        if ($request->filled('published_at')) {
+            $validated['published_at'] = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
+        }
+
+        $validated['slug'] = Str::slug($request->title);
+        
+        $post->update($validated);
+        return redirect()->route('admin.posts.index')->with('success', 'Post updated');
     }
 
     /**
@@ -82,11 +95,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::findOrFail($id);
-        if ($category->posts()->count() > 0) {
-            return redirect()->route('admin.categories.index')->with('error', 'Category contains posts');
-        }
-        $category->delete();
-        return redirect()->route('admin.categories.index')->with('success', 'Category deleted');
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->route('admin.categories.index')->with('success', 'Post deleted');
     }
 }
