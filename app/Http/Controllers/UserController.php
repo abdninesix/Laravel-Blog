@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -133,7 +134,12 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      */
 
-     
+     public function destroyComment(string $postId, string $commentId)
+    {
+        $comment = Comment::where('post_id', $postId)->where('id', $commentId)->where('user_id', auth()->id())->firstOrFail();
+        $comment->delete();
+        return back()->with('success', 'Comment deleted');
+    }
 
     public function destroy(string $id)
     {

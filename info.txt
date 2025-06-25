@@ -11,3 +11,7 @@ laravel Blog:
 9. Add hrefs to sidebar routes and work on web.php, and controllers to access the frontend when clicked
 10. Build the frontend, tables, forms, submissions etc
 11. Test front and back
+12. Repeat 9, 10, 11 for categories, blogs, comments and whatsoever
+13. Add make:middleware for admin/user roles.
+14. Add middleware alias in bootstrap\app.php
+15. Add middleware in web.php as well
