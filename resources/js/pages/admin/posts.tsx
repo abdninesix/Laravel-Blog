@@ -299,12 +299,12 @@ export default function PostsPage({ posts, categories }: PostsPageProps) {
                             {selectedPost?.comments.map((comment) => (
                                 <div key={comment.id} className="border-b py-3 last:border-b-0">
                                     <div className="flex justify-between items-start mb-2">
-                                        <div className="font-medium">{comment.user.name}</div>                                        <div className="text-sm text-gray-500">
+                                        <div className="font-medium">{comment.user.name}</div>                                        <div className="text-sm text-gray-400">
                                             {new Date(comment.created_at).toLocaleDateString()}
                                         </div>
-                                    </div>                                    <p className="text-gray-700">{comment.content}</p>                                </div>))}
+                                    </div>                                    <p className="text-gray-400">{comment.content}</p>                                </div>))}
                             {selectedPost?.comments.length === 0 && (
-                                <div className="text-center py-4 text-gray-500">
+                                <div className="text-center py-4 text-gray-400">
                                     No comments yet                                </div>)}
                         </div>
                     </DialogContent>                </Dialog>
